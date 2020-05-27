@@ -7,8 +7,8 @@ const billStringField = document.querySelector(".billString");
 //get reference to bill total element 
 const billTotalSpanElement = document.querySelector(".total")
 
-
-
+//referencing the factory function
+var calcBill = CalculateBill()
 
 //create the function that will be called when the calculate button is pressed
 //  * this function should read the string value entered - split it on a comma.
@@ -23,26 +23,25 @@ function calculateBtnClicked(){
   
     var billItems = billString.split(",");
     // a variable for the total phone bill.
-    var billTotal = 0;
+    
     //loop over all the bill items
     for (var i=0;i<billItems.length;i++){
         var billItem = billItems[i].trim();
         if (billItem === "call"){
-            billTotal += 2.75;
+            calcBill.callString()
         }
         else if (billItem === "sms"){
-            billTotal += 0.75;
+           calcBill.smsString()
         }
     }
     
     //round to two decimals
-    var roundedBillTotal = billTotal.toFixed(2);
-    billTotalElement.innerHTML = roundedBillTotal;
+    billTotalElement.innerHTML = calcBill.getTotalCost().toFixed(2);
     
     billTotalSpanElement.classList.remove("warning")
     billTotalSpanElement.classList.remove("danger")
 
-    const currentTotal =Number(roundedBillTotal)
+    var currentTotal =Number(calcBill.getTotalCost().toFixed(2))
     if(currentTotal >= 30){
         billTotalSpanElement.classList.add("danger")
     }else if (currentTotal >= 20 && currentTotal < 30){
